@@ -8,6 +8,7 @@ def getHomeData(data):
     data['todayEvents'] = []
     data['tomorrowEvents'] = []
     data['weekendEvents'] = []
+    data['inCinema'] = []
     url = 'https://epoznan.pl'
     page = requests.get(url)
     soup = BeautifulSoup(page.text, 'html.parser')
@@ -55,21 +56,37 @@ def getHomeData(data):
             title = title.replace('\n                  ', '')
             title = title.replace('  ', '')
 
-        category = event['data-category']
-        categoryName = ''
-        if category == '0':
-            categoryName = 'todayEvents'
-        elif category == '1':
-            categoryName = 'tomorrowEvents'
-        elif category == '2':
-            categoryName = 'weekendEvents'
+        imgUrl = event.find(class_='eventsList__itemImage')['style'].split("('", 1)[1].split("')")[0]
+        category = event.find(class_='eventsList__itemCategory').text
+        info = event.find(class_='eventsList__itemInfo').text
 
-        data[categoryName].append({
+
+        dataCategory = event['data-category']
+        dataCategoryName = ''
+        if dataCategory == '0':
+            dataCategoryName = 'todayEvents'
+        elif dataCategory == '1':
+            dataCategoryName = 'tomorrowEvents'
+        elif dataCategory == '2':
+            dataCategoryName = 'weekendEvents'
+
+        data[dataCategoryName].append({
             'title': title,
-            'category': category
+            'dataCategory': dataCategory,
+            'category': category,
+            'info': info,
+
         })
 
-    data['ilosc'] = len(events)
+    
+    inCinema = soup.find_all(class_='cinemaList__item')
+    for movie in inCinema:
+        imgUrl = movie.find(class_='cinemaList__itemImage')['style'].split("('", 1)[1].split("')")[0]
+
+        data['inCinema'].append({
+            'imgUrl': imgUrl,
+        })
+
 
 
 
