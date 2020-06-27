@@ -1,28 +1,30 @@
-import requests
-from bs4 import BeautifulSoup
+from flask import Flask
+import json
+from articleList import getArticleList
+from article import getArticle
+from home import getHomeData
 
-class Article:
-    title = ''
-    imgUrl = ''
-    id = 0
-    date = ''
 
-    def __init__(self, title, imgUrl, id, date):
-        self.title = title
-        self.imgUrl = imgUrl
-        self.id = id
-        self.date = date
+data = {}
+app = Flask(__name__)
 
-url = 'https://epoznan.pl/newsList-0-najswiezsze_wiadomosci'
-page = requests.get(url)
-soup = BeautifulSoup(page.text, 'html.parser')
-articles = []
+@app.route('/news/<tag>/<page>')
+def news(tag, page):
+    getArticleList(data, tag, page)
+    return json.dumps(data)
 
-articleHTMLList = soup.find_all(class_='masonryPosts__itemInner')
-print(articleHTMLList[0])
-for article in articleHTMLList:
-    articleTitle = article.find('h4').text
-    articleImgUrl = article.find(class_='masonryPosts__itemBg')['style'].split("('", 1)[1].split("')")[0]
-    articleID = article['href']
 
-    print(str(articleID))
+@app.route('/article/<url>')
+def article(url):
+    getArticle(data, url)
+    return json.dumps(data)
+
+
+@app.route('/home')
+def home():
+    getHomeData(data)
+    return json.dumps(data)
+
+
+if __name__ == '__main__':
+    app.run() 
