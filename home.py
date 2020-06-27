@@ -87,6 +87,8 @@ def getHomeData(data):
             'imgUrl': imgUrl,
         })
 
+    weather = soup.find(class_='weatherList__boxAlertInner').text
+    data['weather'] = weather
 
 
 
