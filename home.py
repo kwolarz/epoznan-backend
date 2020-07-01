@@ -37,7 +37,10 @@ def getHomeData(data):
     for post in leftPosts:
         title = post.find('h3').text
         publishDate = post.find('a', class_='postItem__category').text
-        imgUrl = post.find(class_='postItem__imageInner')['style'].split("('", 1)[1].split("')")[0]
+        try:
+            imgUrl = post.find(class_='postItem__imageInner')['style'].split("('", 1)[1].split("')")[0]
+        except:
+            imgUrl = 'https://www.poznan.pl/mim/turystyka/pictures/epoznan,pic1,1017,75153,134326,show2.jpg'
         url = post.find('a', class_='postItem__category')['href']
 
         data['leftPosts'].append({
@@ -55,10 +58,21 @@ def getHomeData(data):
         if '\n' in title:
             title = title.replace('\n                  ', '')
             title = title.replace('  ', '')
+        try:
+            imgUrl = event.find(class_='eventsList__itemImage')['style'].split("('", 1)[1].split("')")[0]
+        except:
+            imgUrl = 'https://epoznan.pl/new_assets/img/culture/mettings.svg'
 
-        imgUrl = event.find(class_='eventsList__itemImage')['style'].split("('", 1)[1].split("')")[0]
         category = event.find(class_='eventsList__itemCategory').text
-        info = event.find(class_='eventsList__itemInfo').text
+        try:
+            infoLocation = event.find(class_='eventsList__itemInfo icon-location').text
+        except:
+            infoLocation = ''
+
+        try:
+            infoDate = event.find(class_='eventsList__itemInfo icon-time').text
+        except:
+            infoDate = ''
 
 
         dataCategory = event['data-category']
@@ -74,7 +88,9 @@ def getHomeData(data):
             'title': title,
             'dataCategory': dataCategory,
             'category': category,
-            'info': info,
+            'infoLocation': infoLocation,
+            'infoDate': infoDate,
+            'imgUrl': imgUrl,
 
         })
 
@@ -87,10 +103,14 @@ def getHomeData(data):
             'imgUrl': imgUrl,
         })
 
-    weather = soup.find(class_='weatherList__boxAlertInner').text
-    data['weather'] = weather
+    try:
+        weatherInfo = soup.find(class_='weatherList__boxAlertInner').text
+        data['weatherInfo'] = weatherInfo
+    except:
+        data['weatherInfo'] = ''
 
+    weatherIcon = soup.find(class_='weatherList__boxItemIcon')['src']
+    weatherTemperature = soup.find(class_='weatherList__boxItemCell weatherList__boxItemCell--textBig').text
 
-
-
-# getHomeData({})
+    data['weatherIcon'] = 'https://epoznan.pl/' + weatherIcon
+    data['weatherTemperature'] = weatherTemperature

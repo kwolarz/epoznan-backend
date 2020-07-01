@@ -2,19 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
-class Article:
-    title = ''  
-    imgUrl = ''
-    id = 0
-    date = ''
-
-    def __init__(self, title, imgUrl, id, date):
-        self.title = title
-        self.imgUrl = imgUrl
-        self.id = id
-        self.date = date
-
-
 def getArticleList(data, tag, page):
     data.clear()
     data['articles'] = []
@@ -27,14 +14,22 @@ def getArticleList(data, tag, page):
         articleHTMLList = soup.find_all(class_='masonryPosts__itemInner')
         print(articleHTMLList[0])
         data['numberOfArticles'] = len(articleHTMLList)
+        
         for article in articleHTMLList:
             isArticleHasUpdate = False
+
             articleTitle = article.find('h4').text.strip()
             if 'AKTUALIZACJA' in articleTitle:
                 isArticleHasUpdate = True
                 articleTitle = articleTitle.replace('\n                                        AKTUALIZACJA', '')
-            articleImgUrl = article.find(class_='masonryPosts__itemBg')['style'].split("('", 1)[1].split("')")[0]
+
+            
+            try:
+                articleImgUrl = article.find(class_='masonryPosts__itemBg')['style'].split("('", 1)[1].split("')")[0]
+            except:
+                articleImgUrl = 'https://www.poznan.pl/mim/turystyka/pictures/epoznan,pic1,1017,75153,134326,show2.jpg'
             articleID = article['href']
+
             data['articles'].append({
                 'title': articleTitle,
                 'imgUrl': articleImgUrl,
