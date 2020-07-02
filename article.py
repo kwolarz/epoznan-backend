@@ -104,8 +104,32 @@ def getArticle(data, url):
             data['updates'].append({
                 'updateText': updateText,
                 'updateDate': updateDate,
-            })            
+            })
     
-    #print(data)
+
+    hasFacebookVideo = False
+    try:
+        facebookVideo = soup.find(class_='post__content').find('iframe')['src']
+        hasFacebookVideo = True
+    except:
+        facebookVideo = ''
+        hasFacebookVideo = False
+    
+    if not 'facebook' in facebookVideo:
+        facebookVideo = ''
+        hasFacebookVideo = False
 
 
+    data['facebookVideos'] = {
+        'hasFacebookVideo': hasFacebookVideo,
+        'embededURL': facebookVideo,
+    }
+    
+    data['tweets'] = []
+    for tweet in article.infos['tweets']:
+        data['tweets'].append({
+            'source': str(tweet),
+        })
+
+#getArticle({}, 'news-news-104091-need_for_speed_ulicami_poznania_za_kierownica_corsy_siedzial_14_latek_wideo')
+#getArticle({}, 'news-news-87737-sondaz_preferencjji_wyborczych_w_regionach_poznan_w_dalszym_ciagu_bastionem_po')

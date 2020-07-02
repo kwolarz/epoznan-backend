@@ -12,7 +12,6 @@ def getArticleList(data, tag, page):
     if page['success'] == 1:
         soup = BeautifulSoup(page['output'], 'html.parser')
         articleHTMLList = soup.find_all(class_='masonryPosts__itemInner')
-        print(articleHTMLList[0])
         data['numberOfArticles'] = len(articleHTMLList)
         
         for article in articleHTMLList:

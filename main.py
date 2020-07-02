@@ -1,12 +1,18 @@
 from flask import Flask
+from flask import jsonify
 import json
 from articleList import getArticleList
 from article import getArticle
 from home import getHomeData
+from comments import getComments
 
 
 data = {}
 app = Flask(__name__)
+
+@app.route('/')
+def main():
+    return 'epoznan.pl'
 
 @app.route('/news/<tag>/<page>')
 def news(tag, page):
@@ -17,12 +23,18 @@ def news(tag, page):
 @app.route('/article/<url>')
 def article(url):
     getArticle(data, url)
-    return json.dumps(data)
+    return jsonify(data)
 
 
 @app.route('/home')
 def home():
     getHomeData(data)
+    return json.dumps(data)
+
+
+@app.route('/comments/<url>')
+def comments(url):
+    getComments(data, url)
     return json.dumps(data)
 
 

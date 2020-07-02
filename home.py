@@ -24,12 +24,14 @@ def getHomeData(data):
             articleTitle = articleTitle.replace('\n                                        AKTUALIZACJA', '')
 
         articleImgUrl = article.find(class_='masonryPosts__itemBg')['style'].split("('", 1)[1].split("')")[0]
-        articleID = article['href']
+        articleURL = article['href']
+        articleID = articleURL.split('news-news-', 1)[1].split('-')[0]
 
         data['middlePosts'].append({
+            'id': articleID,
             'title': articleTitle,
             'imgUrl': articleImgUrl,
-            'url': articleID,
+            'url': articleURL,
             'update': isArticleHasUpdate
         })
 
@@ -42,8 +44,10 @@ def getHomeData(data):
         except:
             imgUrl = 'https://www.poznan.pl/mim/turystyka/pictures/epoznan,pic1,1017,75153,134326,show2.jpg'
         url = post.find('a', class_='postItem__category')['href']
+        id = url.split('news-news-', 1)[1].split('-')[0]
 
         data['leftPosts'].append({
+            'id': id,
             'title': title,
             'publishDate': publishDate,
             'imgUrl': imgUrl,
