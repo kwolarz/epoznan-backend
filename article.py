@@ -59,8 +59,12 @@ def getArticle(data, url):
     #cancelled in this place due to many data in one scope
 
     #get number of commetns
-    numberOFCommentsDiv = soup.find(class_='postSidebar__actionBox postSidebar__actionBox--lightBlue')
-    numberOfComments = numberOFCommentsDiv.find_all('span')[1].text.split('(',1)[1].split(')')[0]
+    try:
+        numberOFCommentsDiv = soup.find(class_='postSidebar__actionBox postSidebar__actionBox--lightBlue')
+        numberOfComments = numberOFCommentsDiv.find_all('span')[1].text.split('(',1)[1].split(')')[0]
+    except:
+        numberOfComments = '0'
+    
     data['numberOfComments'] = numberOfComments
 
     #get tags
@@ -124,7 +128,7 @@ def getArticle(data, url):
         'hasFacebookVideo': hasFacebookVideo,
         'embededURL': facebookVideo,
     }
-    
+
     data['tweets'] = []
     for tweet in article.infos['tweets']:
         data['tweets'].append({
