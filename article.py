@@ -29,7 +29,7 @@ def getArticle(data, url):
     data['topImageURL'] = topImage
 
     #get text
-    text = article.cleaned_text
+    text = article.cleaned_text.replace('\n\n\n\n', '\n\n')
     
     #get description
     description = article.opengraph['description']
