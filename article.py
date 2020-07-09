@@ -32,9 +32,13 @@ def getArticle(data, url):
     text = article.cleaned_text.replace('\n\n\n\n', '\n\n')
     
     #get description
-    description = article.opengraph['description']
-    if description in text:
-        text = text.replace(description, '')
+    try:
+        description = article.opengraph['description']
+        if description in text:
+            text = text.replace(description, '')
+    except:
+        description = ''
+
 
     data['text'] = text
     data['description'] = description
@@ -135,5 +139,7 @@ def getArticle(data, url):
             'source': str(tweet),
         })
 
+    #print(data)
 #getArticle({}, 'news-news-104091-need_for_speed_ulicami_poznania_za_kierownica_corsy_siedzial_14_latek_wideo')
 #getArticle({}, 'news-news-87737-sondaz_preferencjji_wyborczych_w_regionach_poznan_w_dalszym_ciagu_bastionem_po')
+#getArticle({}, 'news-news-107686-posel_pis_przyjechal_do_jednej_z_podpoznanskich_gmin_z_czekiem_wojt_zaskoczyl_go_rachunkiem')
