@@ -29,7 +29,16 @@ def getArticle(data, url):
     data['topImageURL'] = topImage
 
     #get text
-    text = article.cleaned_text.replace('\n\n\n\n', '')
+    text = article.cleaned_text.replace('\n\n', '\n')
+    # numberOfNewlines = 0
+    # if '\n\n' in text[:10]:
+    #     numberOfNewlines += 1
+    
+    # toReplace = '' + '\n'
+    # for _ in range(numberOfNewlines):
+    #     toReplace += '\n'
+    
+    # text = text[0:10]
     
     #get description
     try:
