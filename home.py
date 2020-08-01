@@ -5,6 +5,7 @@ def getHomeData(data):
     data.clear()
     data['middlePosts'] = []
     data['leftPosts'] = []
+    data['today'] = []
     data['todayEvents'] = []
     data['tomorrowEvents'] = []
     data['weekendEvents'] = []
@@ -46,13 +47,43 @@ def getHomeData(data):
         url = post.find('a', class_='postItem__category')['href']
         id = url.split('news-news-', 1)[1].split('-')[0]
 
+        try:
+            numberOfComments = int(post.find(class_='postItem__infoStat icon-chat').text)
+        except:
+            numberOfComments = 0
+
+        try:
+            numberOfPhotos = int(post.find(class_='postItem__infoStat icon-photos').text)
+        except:
+            numberOfPhotos = 0
+
+        update = False
+        if post.find(class_='postItem__infoTitle'):
+            update = True
+
         data['leftPosts'].append({
-            'id': id,
-            'title': title,
-            'publishDate': publishDate,
-            'imgUrl': imgUrl,
-            'url': url
-        })
+                'id': id,
+                'title': title,
+                'publishDate': publishDate,
+                'imgUrl': imgUrl,
+                'url': url,
+                'comments': numberOfComments,
+                'photos': numberOfPhotos,
+                'update': update,
+            })
+
+        fromToday = ''.join(x for x in publishDate if x.isdigit())
+        if int(fromToday) <= 12:
+            data['today'].append({
+                'id': id,
+                'title': title,
+                'publishDate': publishDate,
+                'imgUrl': imgUrl,
+                'url': url,
+                'comments': numberOfComments,
+                'photos': numberOfPhotos,
+                'update': update,
+            })
 
     
 
