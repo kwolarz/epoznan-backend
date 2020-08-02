@@ -73,7 +73,7 @@ def getHomeData(data):
             })
 
         fromToday = ''.join(x for x in publishDate if x.isdigit())
-        if int(fromToday) <= 12:
+        if int(fromToday) <= 12 or 'minut' in publishDate:
             data['today'].append({
                 'id': id,
                 'title': title,
