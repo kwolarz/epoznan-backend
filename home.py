@@ -144,8 +144,24 @@ def getHomeData(data):
     except:
         data['weatherInfo'] = ''
 
-    weatherIcon = soup.find(class_='weatherList__boxItemIcon')['src']
-    weatherTemperature = soup.find(class_='weatherList__boxItemCell weatherList__boxItemCell--textBig').text
+    temperatureIcon = soup.find_all(class_='weatherList__boxItemIcon')[0]['src']
+    temperatureCurrent = soup.find(class_='weatherList__boxItemCell weatherList__boxItemCell--textBig').text
+    temperatureMin = soup.find(class_='weatherList__boxItemCell weatherList__boxItemCell--textMedium').text
+    rain = soup.find_all(class_='weatherList__boxItemCell weatherList__boxItemCell--value')[0].text
+    wind = soup.find_all(class_='weatherList__boxItemCell weatherList__boxItemCell--value')[1].text + '/h'
 
-    data['weatherIcon'] = 'https://epoznan.pl/' + weatherIcon
-    data['weatherTemperature'] = weatherTemperature
+    airIcon = soup.find_all(class_='weatherList__boxItemIcon')[1]['src']
+    airQuality = soup.find_all(class_='weatherList__boxItemCell weatherList__boxItemCell--value')[2].text
+    airState = soup.find_all(class_='weatherList__boxItemCell weatherList__boxItemCell--value')[3].text
+
+    data['temperatureIcon'] = 'https://epoznan.pl/' + temperatureIcon
+    data['airIcon'] = 'https://epoznan.pl/' + airIcon
+
+    data['temperatureCurrent'] = temperatureCurrent
+    data['temperatureMin'] = temperatureMin
+    data['rain'] = rain
+    data['wind'] = wind
+
+    data['airQuality'] = airQuality
+    data['airState'] = airState
+
