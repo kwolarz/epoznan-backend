@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 def getArticle(data, url):
     data.clear()
     g = Goose()
+    g.configuration.ArticleContextPattern(attr="post")
     url = 'https://epoznan.pl/' + url
     page = requests.get(url)
     article = g.extract(raw_html=page.text)
@@ -140,7 +141,8 @@ def getArticle(data, url):
             'source': str(tweet),
         })
 
-    #print(data)
+    
 #getArticle({}, 'news-news-104091-need_for_speed_ulicami_poznania_za_kierownica_corsy_siedzial_14_latek_wideo')
 #getArticle({}, 'news-news-87737-sondaz_preferencjji_wyborczych_w_regionach_poznan_w_dalszym_ciagu_bastionem_po')
 #getArticle({}, 'news-news-107686-posel_pis_przyjechal_do_jednej_z_podpoznanskich_gmin_z_czekiem_wojt_zaskoczyl_go_rachunkiem')
+getArticle({}, 'news-news-108695-43_letnia_kobieta_smiertelnie_potracona_przez_pociag')

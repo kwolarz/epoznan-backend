@@ -32,9 +32,9 @@ def home():
     return json.dumps(data)
 
 
-@app.route('/comments/<url>')
-def comments(url):
-    getComments(data, url)
+@app.route('/comments/<id>/<page>')
+def comments(id, page):
+    getComments(data, id, page)
     return json.dumps(data)
 
 

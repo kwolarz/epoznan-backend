@@ -35,7 +35,3 @@ def getArticleList(data, tag, page):
                 'url': articleID,
                 'update': isArticleHasUpdate
             })
-            
-
-
-# getArticleList({}, '0', '-1')
