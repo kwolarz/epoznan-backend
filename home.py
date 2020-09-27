@@ -109,6 +109,8 @@ def getHomeData(data):
         except:
             infoDate = ''
 
+        url = event.find('a')['href']
+
 
         dataCategory = event['data-category']
         dataCategoryName = ''
@@ -126,6 +128,7 @@ def getHomeData(data):
             'infoLocation': infoLocation,
             'infoDate': infoDate,
             'imgUrl': imgUrl,
+            'url': url,
 
         })
 
