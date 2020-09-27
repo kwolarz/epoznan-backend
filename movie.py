@@ -58,8 +58,8 @@ def getMovie(data, url):
                 'hours': hourss[index],
             })
 
-    print(places)
-    print(hourss)
+    # print(places)
+    # print(hourss)
     # print(title)
     # print(imageUrl)
     # print(text)
