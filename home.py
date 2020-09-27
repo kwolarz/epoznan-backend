@@ -133,9 +133,11 @@ def getHomeData(data):
     inCinema = soup.find_all(class_='cinemaList__item')
     for movie in inCinema:
         imgUrl = movie.find(class_='cinemaList__itemImage')['style'].split("('", 1)[1].split("')")[0]
+        url = movie.find(class_='cinemaList__itemLink')['href']
 
         data['inCinema'].append({
             'imgUrl': imgUrl,
+            'url': url,
         })
 
     try:
