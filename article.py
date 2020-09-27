@@ -6,7 +6,6 @@ from bs4 import BeautifulSoup
 def getArticle(data, url):
     data.clear()
     g = Goose()
-    g.configuration.ArticleContextPattern(attr="post")
     url = 'https://epoznan.pl/' + url
     page = requests.get(url)
     article = g.extract(raw_html=page.text)
