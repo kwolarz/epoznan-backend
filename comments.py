@@ -14,6 +14,8 @@ class Comment:
     dislikes: str
     numberOfResponses: str
     responses: list
+    buried: bool
+    banned: bool
 
 def getComments(data, id, page):
     data.clear()
@@ -38,7 +40,6 @@ def getComments(data, id, page):
             isBuried = True
         
         if 'Komentarz usunięty za złamanie regulaminu. IP autora zabezpieczono na potrzeby potencjalnego postępowania policji lub prokuratury.' in commentText:
-            commentText = 'dupa'
             isBanned = True
 
         try:
@@ -79,7 +80,9 @@ def getComments(data, id, page):
             commentLikes,
             commentDislike,
             numberOfResponses,
-            listOfResponses
+            listOfResponses,
+            isBuried,
+            isBanned
         )
 
         comments.append(com)
@@ -100,6 +103,8 @@ def getComments(data, id, page):
                 'likes': comments[resp].likes,
                 'dislikes': comments[resp].dislikes,
                 'numberOfResponses': comments[resp].numberOfResponses,
+                'buried': comments[resp].buried,
+                'banned': comments[resp].banned,
             })
 
         for _ in range(int(com.numberOfResponses)):
@@ -116,6 +121,8 @@ def getComments(data, id, page):
             'dislikes': com.dislikes,
             'numberOfResponses': com.numberOfResponses,
             'responses': responses,
+            'buried': com.buried,
+            'banned': com.banned,
         })
 
 
