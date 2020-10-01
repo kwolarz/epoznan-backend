@@ -7,6 +7,7 @@ from home import getHomeData
 from comments import getComments
 from movie import getMovie
 from event import getEvent
+from weather import getWeather
 
 
 data = {}
@@ -47,6 +48,11 @@ def movie(url):
 @app.route('/event/<url>')
 def event(url):
     getEvent(data, url)
+    return json.dumps(data)
+
+@app.route('/weather')
+def weather():
+    getWeather(data)
     return json.dumps(data)
 
 if __name__ == '__main__':

@@ -6,9 +6,10 @@ def getHomeData(data):
     data['middlePosts'] = []
     data['leftPosts'] = []
     data['today'] = []
-    data['todayEvents'] = []
-    data['tomorrowEvents'] = []
-    data['weekendEvents'] = []
+    # data['todayEvents'] = []
+    # data['tomorrowEvents'] = []
+    # data['weekendEvents'] = []
+    data['futureEvents'] = []
     data['inCinema'] = []
     url = 'https://epoznan.pl'
     page = requests.get(url)
@@ -121,7 +122,9 @@ def getHomeData(data):
         elif dataCategory == '2':
             dataCategoryName = 'weekendEvents'
 
-        data[dataCategoryName].append({
+        nextEvents = ''.join(x for x in infoDate if x.isdigit())
+        # if infoDate == 'dzisiaj' or infoDate == 'jutro' or int(nextEvents) < 30:
+        data['futureEvents'].append({
             'title': title,
             'dataCategory': dataCategory,
             'category': category,
