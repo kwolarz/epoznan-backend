@@ -12,21 +12,24 @@ def getMovie(data, url):
 
     contentDiv = soup.find(class_='post__content')
     text = contentDiv.find_all('p')[0].text.replace('\n', '').replace('  ', '')
-    cast = contentDiv.find_all('p')[1].text.replace('\n', '').replace('  ', '')
+    try:
+        cast = contentDiv.find_all('p')[1].text.replace('\n', '').replace('  ', '')
+    except IndexError:
+        cast = ''
 
     dates = []
-    datesHTML = soup.find_all('p')[2:7]
+    post = soup.find(class_='singlePost__main')
+    datesHTML = post.find_all('p')[2:]
     for index, date in enumerate(datesHTML):
         # print(date.text.replace('\n', '').replace('  ', ''))
         date = date.text.replace('\n', '').replace('  ', '')
         dates.append({
-            str(index): date,
+            str(index + 1): date,
         })
         # dates.append(date)
 
     repertoire = {}
-    post = soup.find(class_='singlePost__main')
-    for i, header in enumerate(post.find_all('p')[2:7], 1):
+    for i, header in enumerate(post.find_all('p')[2:], 1):
         next_tag = header
         j = 1
 
@@ -73,5 +76,5 @@ def getMovie(data, url):
     data['dates'] = dates
     data['repertoire'] = repertoire
 
-getMovie({}, 'culture-film-29558-mulan')
+getMovie({}, 'culture-film-29557')
 #getMovie({}, 'culture-film-29547-25_lat_niewinnosci_sprawa_tomka_komendy')
